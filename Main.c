@@ -9,12 +9,13 @@ int main()
 {
     char enc[] = "TESTDECRYPTION";
     int k = 15;
+    int c;
     encrypt(enc, 14, k);
     printf("Encryption is: %s", enc);
-   for(c= 0; c < 26; c++)
+   for(c = 0; c < 26; c++)
    {
         brutedecrypt(enc, 14, c);
-        printf("Decryption is: %s", enc);
+        printf("Decryption is: %s\n", enc);
    }
     return 0;
 
