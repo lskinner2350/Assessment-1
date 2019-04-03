@@ -25,13 +25,13 @@ int main()
 void encrypt(char *x, int k)
 {
     int i = 0;
-    do
+    while(x[i] != 0)
     {
         printf("%c\t", x[i]);
         x[i] = ((x[i] + k)%26 + 65 );
         printf("%c\n", x[i]);
         i++;
-    } while(x[i] != NULL);
+    }
     return;
 }
 
@@ -41,13 +41,13 @@ void encrypt(char *x, int k)
 void decrypt(char *x, int N, int k)
 {
     int i = 0;
-    do
+    while(x[i] != 0)
     {
         printf("%c\t", x[i]);
         x[i] = ((x[i] - k)%26 + 65 );
         printf("%c\n", x[i]);
         i++;
-    } while(x[i] != NULL);
+    } 
     return;
 }
 void brutedecrypt(char *x, int N, int k)
