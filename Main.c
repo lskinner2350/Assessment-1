@@ -3,16 +3,19 @@
 void encrypt(char *x, int k);
 void decrypt(char *x, int N, int k);
 void brutedecrypt(char *x, int N, int k);
+void subencrypt(char *x, char *y, char *z);// x[] is string to be encypted y[] is the encyption and z[] is the key.
 
 
 int main()
 {
+    char text[20];
+    char key[26] = "QWERTYUIOPASDFGHJKLZXCVBNM";
     char enc[20];
-    printf("Code to be Decrypted: ");
-    scanf("%s", enc);
+    printf("Code to be Encrypted: ");
+    scanf("%s", text);
     int k = 15;
     int c;
-    encrypt(enc, k);
+    subencrypt(text, enc, key);
     printf("Encryption is: %s", enc);
     return 0;
 
@@ -61,8 +64,16 @@ void brutedecrypt(char *x, int N, int k)
     }
     return;
 }
-GGG
-G
-G
-G
-G
+void subencrypt(char *x, char *y, char *z)
+{
+    int i = 0;
+    char c;
+    while(x[i] != 0)
+    {
+        c = x[i];
+        y[i] = z[c - 65];
+        i++;
+
+    }
+    return;
+}
