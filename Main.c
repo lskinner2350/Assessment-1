@@ -61,3 +61,8 @@ void brutedecrypt(char *x, int N, int k)
     }
     return;
 }
+GGG
+G
+G
+G
+G
