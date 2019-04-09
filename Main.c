@@ -4,7 +4,7 @@ void encrypt(char *x, int k);
 void decrypt(char *x, int N, int k);
 void brutedecrypt(char *x, int N, int k);
 void subencrypt(char *x, char *y, char *z);// x[] is string to be encypted y[] is the encyption and z[] is the key.
-
+void subdecrypt(char *x, char *y, char *z);
 
 int main()
 {
@@ -77,3 +77,25 @@ void subencrypt(char *x, char *y, char *z)
     }
     return;
 }
+void subdecrypt(char *x, char *y, char *z)
+{
+    int i = 0;
+    char c;
+    while(x[i] != 0)
+    {
+        c = x[i];
+        if(c >= 65 && c <= 90)
+        {
+            y[i] = z[c - 65];
+        }
+        else
+        {
+            
+        y[i] = c;
+        }
+        i++;
+
+    }
+    return;
+}
+
