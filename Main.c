@@ -3,20 +3,34 @@
 void encrypt(char *x, int k);
 void decrypt(char *x, int N, int k);
 void brutedecrypt(char *x, int N, int k);
-void subencrypt(char *x, char *y, char *z);// x[] is string to be encypted y[] is the encyption and z[] is the key.
+void subencrypt(FILE *x, FILE *y, char *z);
 void subdecrypt(char *x, char *y, char *z);
 
 int main()
 {
-    char text[20];
-    char key[26] = "QWERTYUIOPASDFGHJKLZXCVBNM";
-    char enc[20];
-    printf("Code to be Encrypted: ");
-    scanf("%s", text);
-    int k = 15;
-    int c;
-    subencrypt(text, enc, key);
-    printf("Encryption is: %s", enc);
+  
+  
+  
+    char keyarray[26];
+    FILE *text, *enc, *key;
+    text = fopen("text.txt", "r");
+    enc = fopen("encryption.txt","w+");
+    key = fopen("key.txt", "r");
+    char ch;
+    int g = 0;
+    while((ch = getc(key)) != EOF)
+        {
+
+            keyarray[g] = ch;
+            g++;
+        }
+  
+    subencrypt(text, enc, keyarray);
+
+    fclose(text);
+    fclose(enc);
+    fclose(key);
+    fscanf()
     return 0;
 
 
@@ -37,9 +51,6 @@ void encrypt(char *x, int k)
     }
     return;
 }
-
-
-
 
 void decrypt(char *x, int N, int k)
 {
@@ -64,16 +75,23 @@ void brutedecrypt(char *x, int N, int k)
     }
     return;
 }
-void subencrypt(char *x, char *y, char *z)
+void subencrypt(FILE *x, FILE *y, char *z)
 {
-    int i = 0;
+    
     char c;
-    while(x[i] != 0)
+    while((c = getc(x)) != EOF)
     {
-        c = x[i];
-        y[i] = z[c - 65];
-        i++;
-
+        if(c >= 65 && c <= 90)
+        {
+            int ch = z[c - 65];
+            putc(ch, y);
+            
+        }
+        else
+        {
+            putc(c, y);
+        }
+        
     }
     return;
 }
@@ -89,8 +107,7 @@ void subdecrypt(char *x, char *y, char *z)
             y[i] = z[c - 65];
         }
         else
-        {
-            
+        {   
         y[i] = c;
         }
         i++;
