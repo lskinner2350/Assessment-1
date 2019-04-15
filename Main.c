@@ -4,7 +4,7 @@ void encrypt(char *x, int k);
 void decrypt(char *x, int N, int k);
 void brutedecrypt(char *x, int N, int k);
 void subencrypt(FILE *x, FILE *y, char *z);
-void subdecrypt(char *x, char *y, char *z);
+void subdecrypt(FILE *x, FILE *y, char *z);
 
 int main()
 {
@@ -14,7 +14,7 @@ int main()
     char keyarray[26];
     FILE *text, *enc, *key;
     text = fopen("text.txt", "r");
-    enc = fopen("encryption.txt","w+");
+    enc = fopen("encryption.txt","w");
     key = fopen("key.txt", "r");
     char ch;
     int g = 0;
@@ -25,12 +25,11 @@ int main()
             g++;
         }
   
-    subencrypt(text, enc, keyarray);
-
+    subdecrypt(text, enc, keyarray);
     fclose(text);
     fclose(enc);
     fclose(key);
-    fscanf()
+    
     return 0;
 
 
@@ -75,43 +74,52 @@ void brutedecrypt(char *x, int N, int k)
     }
     return;
 }
-void subencrypt(FILE *x, FILE *y, char *z)
+void subdecrypt(FILE *x, FILE *y, char *z)
 {
-    
+    int i = 0;  
     char c;
-    while((c = getc(x)) != EOF)
+    char alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    while((c = fgetc(x)) != EOF)
     {
+        
         if(c >= 65 && c <= 90)
         {
-            int ch = z[c - 65];
+            for(i = 0; i < 26; i++)
+            {
+                if(c == z[i])
+                {
+                    char ch = alphabet[i];
+                    putc(ch, y);
+                }
+                else{}
+            }
+            
+        }
+        else
+       {
+            putc((int)c, y);
+     }
+        
+     }
+    return;
+}
+void subencrypt(FILE *x, FILE *y, char *z)
+{
+    char c;
+    while((c = fgetc(x)) != EOF)
+    {
+        
+        if(c >= 65 && c <= 90)
+        {
+            char ch = z[c - 65];
             putc(ch, y);
             
         }
         else
-        {
-            putc(c, y);
-        }
-        
-    }
-    return;
-}
-void subdecrypt(char *x, char *y, char *z)
-{
-    int i = 0;
-    char c;
-    while(x[i] != 0)
-    {
-        c = x[i];
-        if(c >= 65 && c <= 90)
-        {
-            y[i] = z[c - 65];
-        }
-        else
-        {   
-        y[i] = c;
-        }
-        i++;
-
+       {
+            putc((int)c, y);
+     }
+      
     }
     return;
 }
