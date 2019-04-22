@@ -10,7 +10,7 @@ int main()
 {
   
   
-  
+    int k = 15;
     char keyarray[26];
     FILE *text, *enc, *key;
     text = fopen("text.txt", "r");
