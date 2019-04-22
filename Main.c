@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
-void encrypt(char *x, int k);
-void decrypt(char *x, int N, int k);
+void encrypt(FILE *x, FILE *y, int k);
+void decrypt(FILE *x, FILE *y, int k);
 void brutedecrypt(char *x, int N, int k);
 void subencrypt(FILE *x, FILE *y, char *z);
 void subdecrypt(FILE *x, FILE *y, char *z);
@@ -38,29 +38,45 @@ int main()
 
 
 
-void encrypt(char *x, int k)
+void encrypt(FILE *x, FILE *y, int k)
 {
-    int i = 0;
-    while(x[i] != 0)
+    char c, ch;
+    while((c = fgetc(x)) != EOF)
     {
-        printf("%c\t", x[i]);
-        x[i] = ((x[i] + k)%26 + 65 );
-        printf("%c\n", x[i]);
-        i++;
+        if(c >= 65 && c <= 90)
+        {
+        ch = (c + k)%26 + 65;
+        fputc(ch, y);
+        }
+        else
+        {
+          fputc(c, y);
+        }
+        
+
+
     }
     return;
 }
 
-void decrypt(char *x, int N, int k)
+void decrypt(FILE *x, FILE *y, int k)
 {
-    int i = 0;
-    while(x[i] != 0)
+  char c, ch;
+    while((c = fgetc(x)) != EOF)
     {
-        printf("%c\t", x[i]);
-        x[i] = ((x[i] - k)%26 + 65 );
-        printf("%c\n", x[i]);
-        i++;
-    } 
+        if(c >= 65 && c <= 90)
+        {
+        ch = (c + k)%26 - 65;
+        fputc(ch, y);
+        }
+        else
+        {
+          fputc(c, y);
+        }
+        
+
+
+    }
     return;
 }
 void brutedecrypt(char *x, int N, int k)
