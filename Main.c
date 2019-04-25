@@ -11,6 +11,10 @@ int main()
 {
   
   
+
+
+
+    int a, b;
     int k;
     char keyarray[26];
     FILE *text, *enc, *key, *dec;
@@ -21,7 +25,51 @@ int main()
     char ch;
     int g = 0;
     //k = 14;
-    k = CaesarChecker(text);
+    //k = CaesarChecker(text);
+    do
+    {
+        printf("Please select an option\n");
+        printf("a) Rotation Cypher\n");
+        printf("b) Subsitiution Cypher\n");
+        printf("Selection: ");
+        scanf("%d", &a);
+        switch (a)
+        {
+            case 'a':
+                do
+                {
+                    printf("Please select an option\n");
+                    printf("a) Encryption\n");
+                    printf("b) Decryption\n");
+                    printf("Selection: ");
+                    scanf("%d", &b);
+                    switch (b)
+                    {
+                        case 'a':
+                            
+                            break;
+                        case 'b':
+                          
+                            break;
+                        default:
+                            break;
+                    }
+                } while (b < 'a' || b > 'b');
+                
+
+                break;
+            case 'b':
+
+                break;
+            default:
+            
+                break;
+        }
+    } while (a < 'a'|| a > 'b');
+    
+    
+
+
     fclose(text);
     text = fopen("text.txt", "r");
     while((ch = getc(key)) != EOF)
