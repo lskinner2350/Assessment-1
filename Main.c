@@ -13,12 +13,12 @@ int main()
   
 
 
-
-    int a, b;
-    int k;
+    char string[20000] = {0};
+    char a, b, c, d;
+    int k, ret = 1;
     char keyarray[26];
     FILE *text, *enc, *key, *dec;
-    text = fopen("text.txt", "r");
+    text = fopen("text.txt", "w+");
     enc = fopen("encryption.txt","w");
     key = fopen("key.txt", "r");
     dec = fopen("decryption.txt","w");
@@ -28,28 +28,102 @@ int main()
     //k = CaesarChecker(text);
     do
     {
-        printf("Please select an option\n");
-        printf("a) Rotation Cypher\n");
-        printf("b) Subsitiution Cypher\n");
+        printf("Please select an option.\n");
+        printf("a) Rotation Cypher.\n");
+        printf("b) Subsitiution Cypher.\n");
         printf("Selection: ");
-        scanf("%d", &a);
+        scanf("%c", &a);
         switch (a)
         {
             case 'a':
                 do
                 {
-                    printf("Please select an option\n");
-                    printf("a) Encryption\n");
-                    printf("b) Decryption\n");
+                    fflush(stdin);
+                    printf("Please select an option.\n");
+                    printf("a) Encryption.\n");
+                    printf("b) Decryption.\n");
                     printf("Selection: ");
-                    scanf("%d", &b);
+                    scanf("%c", &b);
                     switch (b)
                     {
                         case 'a':
-                            
+                            do
+                            {
+                            printf("Please enter the key: ");
+                            fflush(stdin);
+                            ret = scanf(" %d", &k);
+                            if (ret == 0) 
+                                {
+                                    printf("I'm sorry dave. I'm afraid I can't do that. Please try again.\n");
+                                }
+                            else if(k < 0)
+                                {
+                                    printf("I'm sorry dave. I'm afraid I can't do that. Please try again. \n");
+                                }
+                            } while (k < 0 || ret == 0);
+                            printf("Please enter text to be encrypted(It can only be Capitol letters): ");
+                            fflush(stdin);
+                            gets(string);
+                            fprintf(text, "%s", string);
+                            fclose(text);
+                            text = fopen("text.txt", "r");
+                            encrypt(text, enc, k);
                             break;
                         case 'b':
-                          
+                            do
+                            {
+                                fflush(stdin);
+                                printf("Please select an option.\n");
+                                printf("a) Key is known.\n");
+                                printf("b) Key is not known.\n");
+                                scanf("%c", &c);
+                                switch (c)
+                                {
+                                    case 'a':
+                                        do
+                                        {
+                                        printf("Please enter the key: ");
+                                        fflush(stdin);
+                                        ret = scanf(" %d", &k);
+                                        k;
+                                        if (ret == 0) 
+                                            {
+                                                printf("I'm sorry dave. I'm afraid I can't do that. Please try again.\n");
+                                            }
+                                        else if(k < 0)
+                                            {
+                                                printf("I'm sorry dave. I'm afraid I can't do that. Please try again. \n");
+                                            }
+                                        } while (k < 0 || ret == 0);
+                                        printf("Please enter text to be decrypted(It can only be Capitol letters): ");
+                                        fflush(stdin);
+                                        gets(string);
+                                        fprintf(text, "%s", string);
+                                        fclose(text);
+                                        text = fopen("text.txt", "r");
+                                        decrypt(text, dec, k);
+                                        break;
+                                    case 'b':
+                                        printf("Please enter text to be decrypted(It can only be Capitol letters): ");
+                                        fflush(stdin);
+                                        gets(string);
+                                        fprintf(text, "%s", string);
+                                        fclose(text);
+                                        text = fopen("text.txt", "r");
+                                        k = CaesarChecker(text);
+                                        fclose(text);
+                                        text = fopen("text.txt", "r");
+                                        printf("%d\n", k);
+                                        decrypt(text, dec, k);
+                                        break;
+                                
+                                    default:
+                                        break;
+                                }
+
+
+                            } while (c < 'a' || c > 'b');
+                            
                             break;
                         default:
                             break;
@@ -59,7 +133,27 @@ int main()
 
                 break;
             case 'b':
+                do
+                {
+                    fflush(stdin);
+                    printf("Please select an option.\n");
+                    printf("a) Encryption.\n");
+                    printf("b) Decryption.\n");
+                    printf("Selection: ");
+                    scanf("%c", &d);
+                    switch (d)
+                    {
+                        case 'a':
+                        
+                            break;
+                        case 'b':
 
+                            break;
+                        default:
+                            break;
+                    }
+                } while (d < 'a'|| d > 'b');
+                
                 break;
             default:
             
@@ -78,9 +172,7 @@ int main()
             keyarray[g] = ch;
             g++;
         }
-   
-    printf("%d\n", k);
-    decrypt(text, dec, k);
+    //decrypt(text, dec, k);
     //encrypt(text, enc, k);
     fclose(text);
     fclose(enc);
@@ -247,7 +339,7 @@ int CaesarChecker(FILE *x)
         k = 26 - k;
     }
     
-        printf("%d\n", k);
+
         k = 26 - k;
     return k;
 }
