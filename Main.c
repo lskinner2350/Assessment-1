@@ -1,6 +1,22 @@
 #include <stdio.h>
 #include <math.h>
+
+
+
+/* 
+encrypt is the function that performs the rotation encryption.
+FILE x is the unencrypted text(input).
+FILE y is the encrypted text(output).
+int k is the rotation amount.
+*/
 void encrypt(FILE *x, FILE *y, int k);
+/*
+decrypt is the function that performs the rotation decryption.
+FILE x is the encrypted text(input).
+FILE y is the decrypted text(output),.
+int k is the rotation amount.
+CeasarChecker is used to calcule k is the key is not known.
+*/
 void decrypt(FILE *x, FILE *y, int k);
 void brutedecrypt(FILE *x, FILE *y, int k);
 void subencrypt(FILE *x, FILE *y, char *z);
@@ -14,13 +30,12 @@ int main()
 
 
     char string[20000] = {0};
-    char a, b, c, d;
-    int k, ret = 1;
+    char a, b, c, d, e, reader;
+    int k, ret = 1, trigger = 0;
     char keyarray[26];
     FILE *text, *enc, *key, *dec;
     text = fopen("text.txt", "w+");
     enc = fopen("encryption.txt","w");
-    key = fopen("key.txt", "r");
     dec = fopen("decryption.txt","w");
     char ch;
     int g = 0;
@@ -68,6 +83,12 @@ int main()
                             fclose(text);
                             text = fopen("text.txt", "r");
                             encrypt(text, enc, k);
+                            fclose(enc);
+                            enc = fopen("encryption.txt", "r");
+                            while((reader = getc(enc)) != EOF)
+                            {
+                                printf("%c", reader);
+                            }
                             break;
                         case 'b':
                             do
@@ -102,6 +123,12 @@ int main()
                                         fclose(text);
                                         text = fopen("text.txt", "r");
                                         decrypt(text, dec, k);
+                                        fclose(dec);
+                                        dec = fopen("decryption.txt", "r");
+                                        while((reader = getc(dec)) != EOF)
+                                        {
+                                            printf("%c", reader);
+                                        }
                                         break;
                                     case 'b':
                                         printf("Please enter text to be decrypted(It can only be Capitol letters): ");
@@ -115,6 +142,12 @@ int main()
                                         text = fopen("text.txt", "r");
                                         printf("%d\n", k);
                                         decrypt(text, dec, k);
+                                        fclose(dec);
+                                        dec = fopen("decryption.txt", "r");
+                                        while((reader = getc(dec)) != EOF)
+                                        {
+                                            printf("%c", reader);
+                                        }
                                         break;
                                 
                                     default:
@@ -144,9 +177,84 @@ int main()
                     switch (d)
                     {
                         case 'a':
-                        
+                            do
+                            {
+                                fflush(stdin);
+                                printf("\nPlease enter the key: ");
+                                gets(keyarray);
+                                for(g = 0; g < 26; g++)
+                                {
+                                    if(keyarray[g] == 0)
+                                        trigger = 1;
+                                        printf("I'm sorry dave. I'm afraid I can't do that. Please try again.\n");
+                                }
+                            } while (trigger == 1);
+                            printf("Please enter text to be encrypted(It can only be Capitol letters): ");
+                            fflush(stdin);
+                            gets(string);
+                            fprintf(text, "%s", string);
+                            fclose(text);
+                            text = fopen("text.txt", "r");
+                            subencrypt(text, enc, keyarray);
+                            fclose(enc);
+                            enc = fopen("encryption.txt", "r");
+                            while((reader = getc(enc)) != EOF)
+                            {
+                                printf("%c", reader);
+                            }    
                             break;
                         case 'b':
+                            do
+                                {
+                                    fflush(stdin);
+                                    printf("\nPlease select an option.\n");
+                                    printf("a) Key is known.\n");
+                                    printf("b) Key is not known.\n");
+                                    printf("Selection: ");
+                                    scanf("%c", &d);
+                                    switch (d)
+                                    {
+                                        case 'a':
+                                            do
+                                            {
+                                                fflush(stdin);
+                                                printf("\nPlease enter the key: ");
+                                                gets(keyarray);
+                                                for(g = 0; g < 26; g++)
+                                                {
+                                                    if(keyarray[g] == 0)
+                                                    {
+                                                        trigger = 1;
+                                                        printf("I'm sorry dave. I'm afraid I can't do that. Please try again.\n");
+                                                    }
+                                                }
+                                            } while (trigger == 1);
+                                            printf("Please enter text to be decrypted(It can only be Capitol letters): ");
+                                            fflush(stdin);
+                                            gets(string);                         
+                                            fprintf(text, "%s", string);
+                                            fclose(text);
+                                            text = fopen("text.txt", "r");
+                                            subdecrypt(text, dec, keyarray);
+                                            fclose(dec);
+                                            dec = fopen("decryption.txt", "r");
+                                            while((reader = getc(dec)) != EOF)
+                                            {
+                                                printf("%c", reader);
+                                            }
+                                            
+                                            break;
+                                        case 'b' :
+                                            printf("One does not simply decrypt without a key.\n");
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+
+                                } while (d < 'a' || d > 'b');
+
+                                
 
                             break;
                         default:
@@ -160,25 +268,10 @@ int main()
                 break;
         }
     } while (a < 'a'|| a > 'b');
-    
-    
-
-
-    fclose(text);
-    text = fopen("text.txt", "r");
-    while((ch = getc(key)) != EOF)
-        {
-
-            keyarray[g] = ch;
-            g++;
-        }
-    //decrypt(text, dec, k);
-    //encrypt(text, enc, k);
+     
     fclose(text);
     fclose(enc);
-    fclose(key);
     fclose(dec);
-    
     return 0;
 
 
